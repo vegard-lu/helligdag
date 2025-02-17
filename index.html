@@ -17,16 +17,18 @@
         }
         .input-group {
             display: flex;
-            justify-content: space-around;
+            justify-content: center; /* Center the items horizontally */
             align-items: center;
             margin-top: 15px;
+        }
+        .input-group > * { /* Reduce spacing between elements */
+            margin: 0 10px; /* Add small margins around each element */
         }
         .input-group label {
             font-size: 18px;
             color: #4a4a4a; /* Grayish label color */
         }
         input[type="time"], input[type="number"], button {
-            margin: 10px auto;
             padding: 10px 15px;
             font-size: 16px;
             border: 1px solid #ccc;
