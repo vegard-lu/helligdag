@@ -15,9 +15,13 @@
         h2 {
             color: #2c5aa7; /* Blue title color */
         }
-        label {
-            display: block;
+        .input-group {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
             margin-top: 15px;
+        }
+        .input-group label {
             font-size: 18px;
             color: #4a4a4a; /* Grayish label color */
         }
@@ -27,7 +31,6 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            width: 250px;
             box-sizing: border-box;
         }
         input[type="number"] {
@@ -59,19 +62,23 @@
 </head>
 <body>
     <h2>Arbeidstid Kalkulator</h2>
-    <label for="startTid">Starttid (HH:MM):</label>
-    <input type="time" id="startTid" required>
     
-    <label for="sluttTid">Slutttid (HH:MM):</label>
-    <input type="time" id="sluttTid" required>
+    <!-- Input group for starttid and slutttid -->
+    <div class="input-group">
+        <label for="startTid">Starttid (HH:MM):</label>
+        <input type="time" id="startTid" required>
+        
+        <label for="sluttTid">Slutttid (HH:MM):</label>
+        <input type="time" id="sluttTid" required>
+    </div>
     
     <button onclick="beregnArbeidstid()">Beregn arbeidstid</button>
     
     <h3 id="resultat"></h3>
     <h3 id="totalLonn"></h3>
-
+    
     <!-- Hourly Wage Input -->
-    <label for="hourlyWage">Timeverk (kr):</label>
+    <label for="hourlyWage">Timelønn (kr):</label>
     <input type="number" id="hourlyWage" value="672.32" step="0.01">
 
     <script>
