@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeidstid Kalkulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Arbeidstid Kalkulator</h2>
+    <label for="startTid">Starttid (HH:MM):</label>
+    <input type="time" id="startTid" required>
+    
+    <label for="sluttTid">Slutttid (HH:MM):</label>
+    <input type="time" id="sluttTid" required>
+    
+    <br>
+    <button onclick="beregnArbeidstid()">Beregn arbeidstid</button>
+    
+    <h3 id="resultat"></h3>
+    <h3 id="totalLonn"></h3>
+    <script>
+        function beregnArbeidstid() {
+            let startTid = document.getElementById("startTid").value;
+            let sluttTid = document.getElementById("sluttTid").value;
+
+            if (!startTid || !sluttTid) {
+                document.getElementById("resultat").innerText = "Vennligst fyll inn begge tidspunktene.";
+                document.getElementById("totalLonn").innerText = "";
+                return;
+            }
+
+            // Convert input times to Date objects
+            let start = new Date("1970-01-01T" + startTid + ":00");
+            let slutt = new Date("1970-01-01T" + sluttTid + ":00");
+
+            // Handle shifts that go past midnight
+            if (slutt < start) {
+                slutt.setDate(slutt.getDate() + 1);
+            }
+
+            // Calculate total work time in hours
+            let arbeidstid = (slutt - start) / (1000 * 60 * 60);
+
+            // Bonus period (06:00 - 20:00)
+            let bonusStart = new Date("1970-01-01T06:00:00");
+            let bonusEnd = new Date("1970-01-01T20:00:00");
+            let bonusTid = 0;
+
+            if (start < bonusEnd && slutt > bonusStart) {
+                let bonusStartTime = new Date(Math.max(start, bonusStart));
+                let bonusEndTime = new Date(Math.min(slutt, bonusEnd));
+                let bonusTimer = (bonusEndTime - bonusStartTime) / (1000 * 60 * 60);
+                bonusTid = bonusTimer * (10 / 60); // 10 extra minutes per hour
+            }
+
+            // Total work time including bonus
+            let totalArbeidstid = arbeidstid + bonusTid;
+
+            // Break down total time into hours and minutes
+            let timer = Math.floor(totalArbeidstid);
+            let minutter = Math.round((totalArbeidstid - timer) * 60);
+
+            // Display total work time
+            document.getElementById("resultat").innerText = `Total arbeidstid: ${timer} timer og ${minutter} minutter`;
+
+            // Hourly wage (NOK 672.32)
+            const timeLonn = 672.32;
+
+            // Calculate total pay
+            let totalLonn = totalArbeidstid * timeLonn;
+
+            // Display total pay
+            document.getElementById("totalLonn").innerText = `Total lønn: ${totalLonn.toFixed(2)} kr`;
+        }
+    </script>
+</body>
+</html>
