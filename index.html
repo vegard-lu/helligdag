@@ -17,16 +17,14 @@
         }
         .input-group {
             display: flex;
-            justify-content: center; /* Center the items horizontally */
-            align-items: center;
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
             margin-top: 15px;
-        }
-        .input-group > * { /* Reduce spacing between elements */
-            margin: 0 10px; /* Add small margins around each element */
         }
         .input-group label {
             font-size: 18px;
             color: #4a4a4a; /* Grayish label color */
+            margin-bottom: 5px; /* Space between label and input */
         }
         input[type="time"], input[type="number"], button {
             padding: 10px 15px;
@@ -34,6 +32,8 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            width: 250px; /* Fixed width for better alignment */
+            margin-bottom: 15px; /* Space between inputs */
         }
         input[type="number"] {
             text-align: right; /* Align number input to the right */
@@ -43,6 +43,7 @@
             color: white; /* White text on button */
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 250px; /* Match width with inputs */
         }
         button:hover {
             background-color: #254b87; /* Darker button hover color */
