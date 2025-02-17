@@ -3,17 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arbeidstid Kalkulator</title>
+    <title>Kalkulator for beregning av Helge- og høytidsdager</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f4f9fd; /* Light blue background */
+            color: #333; /* Dark text color */
         }
-        input, button {
-            margin: 10px;
-            padding: 8px;
+        h2 {
+            color: #2c5aa7; /* Blue title color */
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 18px;
+            color: #4a4a4a; /* Grayish label color */
+        }
+        input[type="time"], input[type="number"], button {
+            margin: 10px auto;
+            padding: 10px 15px;
             font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px;
+            box-sizing: border-box;
+        }
+        input[type="number"] {
+            text-align: right; /* Align number input to the right */
+        }
+        button {
+            background-color: #2c5aa7; /* Button background color */
+            color: white; /* White text on button */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #254b87; /* Darker button hover color */
+        }
+        h3 {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #2c5aa7; /* Blue result text */
+        }
+        #resultat, #totalLonn {
+            font-size: 22px;
+            font-weight: bold;
+            color: #3e8bb5; /* Highlighted result color */
+        }
+        #hourlyWage {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -25,11 +65,15 @@
     <label for="sluttTid">Slutttid (HH:MM):</label>
     <input type="time" id="sluttTid" required>
     
-    <br>
     <button onclick="beregnArbeidstid()">Beregn arbeidstid</button>
     
     <h3 id="resultat"></h3>
     <h3 id="totalLonn"></h3>
+
+    <!-- Hourly Wage Input -->
+    <label for="hourlyWage">Timeverk (kr):</label>
+    <input type="number" id="hourlyWage" value="672.32" step="0.01">
+
     <script>
         function beregnArbeidstid() {
             let startTid = document.getElementById("startTid").value;
@@ -75,8 +119,14 @@
             // Display total work time
             document.getElementById("resultat").innerText = `Total arbeidstid: ${timer} timer og ${minutter} minutter`;
 
-            // Hourly wage (NOK 672.32)
-            const timeLonn = 672.32;
+            // Get hourly wage from input field
+            const timeLonn = parseFloat(document.getElementById("hourlyWage").value);
+
+            // Validate hourly wage input
+            if (isNaN(timeLonn) || timeLonn <= 0) {
+                document.getElementById("totalLonn").innerText = "Vennligst oppgi en gyldig timeverk.";
+                return;
+            }
 
             // Calculate total pay
             let totalLonn = totalArbeidstid * timeLonn;
